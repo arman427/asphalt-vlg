@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { cn } from "@/lib/utils"
 import { Container } from "./container";
 import Image from "next/image";
@@ -12,6 +13,8 @@ interface Props {
 }
 
 export function Header({ className }: Props) {
+   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
    useGSAP(() => {
       gsap.from(".welcome-image", {
          clipPath: "inset(100% 0% 0% 100%)",
@@ -77,11 +80,13 @@ export function Header({ className }: Props) {
    });
 
    return (
-      <header className={cn("bg-accent h-screen py-5 flex", className)}>
+      <header className={cn("bg-accent min-h-screen lg:h-screen py-3 sm:py-5 flex", className)}>
          <Container className="border border-black/15 flex-1 flex flex-col p-[1.5px]">
-            <div className="flex justify-between items-center header p-3 border-t border-x border-dashed border-black/15">
-               <div className="flex items-end gap-3">
-                  <div className="relative w-13 h-13">
+
+            {/* Верхняя панель */}
+            <div className="flex flex-wrap justify-between items-center gap-3 header p-3 border-t border-x border-dashed border-black/15">
+               <div className="flex items-end gap-2 sm:gap-3">
+                  <div className="relative w-10 h-10 sm:w-13 sm:h-13 shrink-0">
                      <Image
                         src="./Header_logo.svg"
                         alt="Логотип"
@@ -90,36 +95,77 @@ export function Header({ className }: Props) {
                      />
                   </div>
                   <div>
-                     <p className="uppercase text-3xl font-semibold font-title tracking-wider header-logo-title">Асфальт</p>
-                     <p className="uppercase text-sm header-logo-subTitle">Качество. Надежность. Гарантия.</p>
+                     <p className="uppercase text-xl sm:text-2xl lg:text-3xl font-semibold font-title tracking-wider header-logo-title">Асфальт</p>
+                     <p className="uppercase text-[10px] sm:text-xs lg:text-sm header-logo-subTitle">Качество. Надежность. Гарантия.</p>
                   </div>
                </div>
 
-               <nav>
+               {/* Навигация — только от lg и выше */}
+               <nav className="hidden lg:block">
                   <ul className="flex gap-1 text-sm">
                      {NAV_LINKS.map((item) => (
-                        <li key={item.id} className="bg-[#e7a63e] header-link"><a href={item.href} className="inline-block uppercase py-1.5 px-5 transition-all hover:bg-[#faa928] tracking-wide">{item.title}</a></li>
+                        <li key={item.id} className="bg-[#e7a63e] header-link">
+                           <a href={item.href} className="inline-block uppercase py-1.5 px-5 transition-all hover:bg-[#faa928] tracking-wide">
+                              {item.title}
+                           </a>
+                        </li>
                      ))}
                   </ul>
                </nav>
 
-               <button className="bg-foreground text-background h-13 w-35 uppercase text-sm tracking-wider cursor-pointer relative group overflow-hidden header-button">
-                  <span className="relative z-10 group-hover:text-black transition-colors duration-500">
-                     Рассчитать
-                  </span>
-                  <div className="absolute w-full h-full bg-white transition-all duration-500 ease -left-50 top-0 group-hover:left-0"></div>
-               </button>
+               <div className="flex items-center gap-2 sm:gap-3">
+                  <button className="bg-foreground text-background h-10 sm:h-13 px-4 sm:w-35 sm:px-0 uppercase text-xs sm:text-sm tracking-wider cursor-pointer relative group overflow-hidden header-button">
+                     <span className="relative z-10 group-hover:text-black transition-colors duration-500">
+                        Рассчитать
+                     </span>
+                     <div className="absolute w-full h-full bg-white transition-all duration-500 ease -left-50 top-0 group-hover:left-0"></div>
+                  </button>
+
+                  {/* Бургер — только до lg */}
+                  <button
+                     onClick={() => setIsMenuOpen((v) => !v)}
+                     aria-label="Открыть меню"
+                     className="lg:hidden relative flex flex-col items-center justify-center gap-1.5 w-10 h-10 bg-foreground shrink-0"
+                  >
+                     <span className={cn("block w-5 h-0.5 bg-background transition-all duration-300", isMenuOpen && "rotate-45 translate-y-2")}></span>
+                     <span className={cn("block w-5 h-0.5 bg-background transition-all duration-300", isMenuOpen && "opacity-0")}></span>
+                     <span className={cn("block w-5 h-0.5 bg-background transition-all duration-300", isMenuOpen && "-rotate-45 -translate-y-2")}></span>
+                  </button>
+               </div>
             </div>
-            <div className="border border-dashed border-black/15 grid grid-cols-[1fr_1fr] w-full min-h-0 flex-1">
-               <div className="border-r border-dashed ml-10 border-black/15 flex flex-col justify-between">
-                  <h1 className="uppercase pt-15 mr-10 text-7xl font-semibold font-title tracking-wider welcome-title">КАЧЕСТВЕННЫЙ АСФАЛЬТ ДЛЯ ДВОРОВ, ДОРОГ И ПАРКОВОК</h1>
-                  <div className="max-w-70">
-                     <p className="uppercase text-sm font-medium mb-5">
+
+            {/* Выпадающее меню на мобильном */}
+            {isMenuOpen && (
+               <nav className="lg:hidden border-x border-b border-dashed border-black/15">
+                  <ul className="flex flex-col text-sm">
+                     {NAV_LINKS.map((item) => (
+                        <li key={item.id} className="bg-[#e7a63e] border-t border-dashed border-black/15">
+                           <a
+                              href={item.href}
+                              onClick={() => setIsMenuOpen(false)}
+                              className="block uppercase py-3 px-5 transition-all hover:bg-[#faa928] tracking-wide"
+                           >  
+                              {item.title}
+                           </a>
+                        </li>
+                     ))}
+                  </ul>
+               </nav>
+            )}
+
+            {/* Главный экран: на мобильном колонка, от lg — грид 1fr/1fr */}
+            <div className="border border-dashed border-black/15 flex flex-col lg:grid lg:grid-cols-[1fr_1fr] w-full min-h-0 flex-1">
+               <div className="px-4 sm:px-6 lg:px-0 lg:ml-10 lg:border-r border-dashed border-black/15 flex flex-col justify-center lg:justify-between gap-6 py-8 lg:py-0">
+                  <h1 className="uppercase pt-0 lg:pt-15 mr-0 lg:mr-10 text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold font-title tracking-wider welcome-title">
+                     КАЧЕСТВЕННЫЙ АСФАЛЬТ ДЛЯ ДВОРОВ, ДОРОГ И ПАРКОВОК
+                  </h1>
+                  <div className="max-w-full sm:max-w-80 lg:max-w-70">
+                     <p className="uppercase text-xs sm:text-sm font-medium mb-4 sm:mb-5">
                         <span className="block welcome-line">Современная техника, проверенные</span>
                         <span className="block welcome-line">технологии укладки и гарантия на</span>
                         <span className="block welcome-line">каждый объект.</span>
                      </p>
-                     <button className="bg-foreground text-background h-13 w-full uppercase text-sm tracking-wider cursor-pointer relative group overflow-hidden mb-10 welcome-button">
+                     <button className="bg-foreground text-background h-12 sm:h-13 w-full uppercase text-xs sm:text-sm tracking-wider cursor-pointer relative group overflow-hidden mb-6 lg:mb-10 welcome-button">
                         <span className="absolute left-3 bottom-1 z-10 group-hover:text-black transition-colors duration-500">
                            Узнать цены
                         </span>
@@ -128,7 +174,7 @@ export function Header({ className }: Props) {
                      </button>
                   </div>
                </div>
-               <div className="relative m-1">
+               <div className="relative m-1 h-64 sm:h-80 md:h-96 lg:h-auto">
                   <Image
                      src="/welcome.png"
                      alt="Кладка асфальта"
