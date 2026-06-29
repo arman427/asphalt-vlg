@@ -6,9 +6,10 @@ export interface NavItem {
 
 export const NAV_LINKS: NavItem[] = [
    { id: 'main', title: 'Главная', href: '/' },
-   { id: 'services', title: 'Услуги', href: '#services' }, // Можно использовать хэши для лендинга
+   { id: 'about', title: 'О нас', href: '#about' },
+   { id: 'services', title: 'Услуги', href: '#services' },
+   { id: 'etapy', title: 'Этапы работы', href: '#etapy' },
    { id: 'prices', title: 'Цены', href: '#prices' },
    { id: 'portfolio', title: 'Наши работы', href: '#portfolio' },
-   { id: 'about', title: 'О компании', href: '#about' },
    { id: 'contacts', title: 'Контакты', href: '#contacts' },
 ];

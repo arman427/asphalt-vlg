@@ -17,9 +17,9 @@ export function Header({ className }: Props) {
 
    useGSAP(() => {
       gsap.from(".welcome-image", {
-         clipPath: "inset(100% 0% 0% 100%)",
-         duration: 1,
-         ease: "power3.out",
+         clipPath: "inset(0% 0% 100% 100%)",
+         duration: 1.4,
+         ease: "expo.out",
          delay: 1
       });
       gsap.from(".header-logo", {
@@ -50,11 +50,11 @@ export function Header({ className }: Props) {
       });
       gsap.from(".header-link", {
          opacity: 0,
-         duration: 0.8,
-         translateX: -5,
+         duration: 0.7,
+         translateX: -10,
          ease: "power3.out",
          delay: 0.4,
-         stagger: 0.1
+         stagger: 0.07
       });
       gsap.from(".welcome-title", {
          opacity: 0,
@@ -83,7 +83,6 @@ export function Header({ className }: Props) {
       <header className={cn("bg-accent min-h-screen lg:h-screen py-3 sm:py-5 flex", className)}>
          <Container className="border border-black/15 flex-1 flex flex-col p-[1.5px]">
 
-            {/* Верхняя панель */}
             <div className="flex flex-wrap justify-between items-center gap-3 header p-3 border-t border-x border-dashed border-black/15">
                <div className="flex items-end gap-2 sm:gap-3">
                   <div className="relative w-10 h-10 sm:w-13 sm:h-13 shrink-0">
@@ -100,12 +99,14 @@ export function Header({ className }: Props) {
                   </div>
                </div>
 
-               {/* Навигация — только от lg и выше */}
                <nav className="hidden lg:block">
                   <ul className="flex gap-1 text-sm">
                      {NAV_LINKS.map((item) => (
                         <li key={item.id} className="bg-[#e7a63e] header-link">
-                           <a href={item.href} className="inline-block uppercase py-1.5 px-5 transition-all hover:bg-[#faa928] tracking-wide">
+                           <a
+                              href={item.href}
+                              className="inline-block uppercase py-1.5 px-5 transition-all hover:bg-[#faa928] tracking-wide"
+                           >
                               {item.title}
                            </a>
                         </li>
@@ -118,10 +119,9 @@ export function Header({ className }: Props) {
                      <span className="relative z-10 group-hover:text-black transition-colors duration-500">
                         Рассчитать
                      </span>
-                     <div className="absolute w-full h-full bg-white transition-all duration-500 ease -left-50 top-0 group-hover:left-0"></div>
+                     <div className="absolute w-full h-full bg-white transition-all duration-500 ease -left-full top-0 group-hover:left-0"></div>
                   </button>
 
-                  {/* Бургер — только до lg */}
                   <button
                      onClick={() => setIsMenuOpen((v) => !v)}
                      aria-label="Открыть меню"
@@ -134,7 +134,6 @@ export function Header({ className }: Props) {
                </div>
             </div>
 
-            {/* Выпадающее меню на мобильном */}
             {isMenuOpen && (
                <nav className="lg:hidden border-x border-b border-dashed border-black/15">
                   <ul className="flex flex-col text-sm">
@@ -144,7 +143,7 @@ export function Header({ className }: Props) {
                               href={item.href}
                               onClick={() => setIsMenuOpen(false)}
                               className="block uppercase py-3 px-5 transition-all hover:bg-[#faa928] tracking-wide"
-                           >  
+                           >
                               {item.title}
                            </a>
                         </li>
@@ -153,10 +152,9 @@ export function Header({ className }: Props) {
                </nav>
             )}
 
-            {/* Главный экран: на мобильном колонка, от lg — грид 1fr/1fr */}
             <div className="border border-dashed border-black/15 flex flex-col lg:grid lg:grid-cols-[1fr_1fr] w-full min-h-0 flex-1">
                <div className="px-4 sm:px-6 lg:px-0 lg:ml-10 lg:border-r border-dashed border-black/15 flex flex-col justify-center lg:justify-between gap-6 py-8 lg:py-0">
-                  <h1 className="uppercase pt-0 lg:pt-15 mr-0 lg:mr-10 text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold font-title tracking-wider welcome-title">
+                  <h1 className="uppercase pt-0 lg:pt-15 mr-0 lg:mr-10 text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold font-title tracking-wider welcome-title leading-20">
                      КАЧЕСТВЕННЫЙ АСФАЛЬТ ДЛЯ ДВОРОВ, ДОРОГ И ПАРКОВОК
                   </h1>
                   <div className="max-w-full sm:max-w-80 lg:max-w-70">
@@ -170,7 +168,7 @@ export function Header({ className }: Props) {
                            Узнать цены
                         </span>
                         <img src="/Button_logo.svg" className="absolute right-0 top-0 z-10 rotate-45 w-5 h-5" />
-                        <div className="absolute w-full h-full bg-white transition-all duration-500 ease -left-85 top-0 group-hover:left-0"></div>
+                        <div className="absolute w-full h-full bg-white transition-all duration-500 ease -left-full top-0 group-hover:left-0"></div>
                      </button>
                   </div>
                </div>
@@ -186,4 +184,4 @@ export function Header({ className }: Props) {
          </Container>
       </header>
    );
-}
+};
