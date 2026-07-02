@@ -1,6 +1,8 @@
+import { Home, Layers, LucideIcon, ParkingSquare, Route, Warehouse, Wrench } from "lucide-react";
+
 interface Services {
    id: number;
-   imageUrl: string;
+   icon: LucideIcon;
    title: string;
    description: string;
 }
@@ -8,37 +10,37 @@ interface Services {
 export const SERVICES_CARD: Services[] = [
    {
       id: 1,
-      imageUrl: "/services_1.png",
+      icon: Route,
       title: "Асфальтирование дорог и магистралей",
       description: "Капитальное строительство городских улиц и загородных трасс любой протяженности с укладкой износостойкого покрытия строго по ГОСТу.",
    },
    {
       id: 2,
-      imageUrl: "/services_2.png",
+      icon: Home,
       title: "Благоустройство дворовых территорий",
       description: "Комплексное обновление придомовых зон, проездов и тротуаров с установкой бордюров у жилых комплексов и частных домов.",
    },
    {
       id: 3,
-      imageUrl: "/services_3.png",
+      icon: ParkingSquare,
       title: "Строительство и ремонт парковок",
       description: "Проектирование и укладка прочного асфальта для стоянок торговых и бизнес-центров с организацией ливневок и нанесением разметки.",
    },
    {
       id: 4,
-      imageUrl: "/services_4.png",
+      icon: Wrench,
       title: "Ямочный ремонт и ликвидация колейности",
       description: "Оперативное восстановление поврежденного дорожного полотна методом фрезерования картами для быстрой ликвидации ям и трещин.",
    },
    {
       id: 5,
-      imageUrl: "/services_5.png",
+      icon: Warehouse,
       title: "Асфальтирование промзон и складов",
       description: "Устройство усиленного покрытия на территориях предприятий и логистических комплексов под постоянное движение тяжелых фур.",
    },
    {
       id: 6,
-      imageUrl: "/services_6.png",
+      icon: Layers,
       title: "Укладка асфальтовой крошки",
       description: "Экономичное и быстрое благоустройство дорог с невысокой нагрузкой в СНТ, дачных поселках и гаражных кооперативах.",
    }

@@ -9,9 +9,9 @@ export function About({ className }: Props) {
    return (
       <Container className={cn("", className)}>
          <div className="flex items-center gap-2 justify-center mt-20" id="about">
-            <div className="w-8 h-1 bg-accent"></div>
+            <div className="w-10 h-0.5 bg-accent"></div>
             <h1 className="uppercase text-2xl lg:text-3xl xl:text-4xl font-semibold font-title tracking-wider">Выполняем асфальтирование любой сложности</h1>
-            <div className="w-8 h-1 bg-accent"></div>
+            <div className="w-10 h-0.5 bg-accent"></div>
          </div>
 
          <div className="max-w-350 mx-auto mt-5">

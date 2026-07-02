@@ -1,7 +1,7 @@
 import { About } from "@/components/About";
 import { Benefits } from "@/components/Benefits";
-import { Container } from "@/components/container";
 import { Header } from "@/components/Header";
+import { Process } from "@/components/Process";
 import { Services } from "@/components/Services";
 
 export default function HomePage() {
@@ -11,6 +11,7 @@ export default function HomePage() {
          <About />
          <Services />
          <Benefits />
+         <Process />
       </div>
    );
 }

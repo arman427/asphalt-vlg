@@ -116,7 +116,7 @@ export function Header({ className }: Props) {
 
                <div className="flex items-center gap-2 sm:gap-3">
                   <button className="bg-foreground text-background h-10 sm:h-13 px-4 sm:w-35 sm:px-0 uppercase text-xs sm:text-sm tracking-wider cursor-pointer relative group overflow-hidden header-button">
-                     <span className="relative z-10 group-hover:text-black transition-colors duration-500">
+                     <span className="relative z-10 group-hover:text-black duration-500 ease-in-out">
                         Рассчитать
                      </span>
                      <div className="absolute w-full h-full bg-white transition-all duration-500 ease -left-full top-0 group-hover:left-0"></div>
@@ -154,7 +154,7 @@ export function Header({ className }: Props) {
 
             <div className="border border-dashed border-black/15 flex flex-col lg:grid lg:grid-cols-[1fr_1fr] w-full min-h-0 flex-1">
                <div className="px-4 sm:px-6 lg:px-0 lg:ml-10 lg:border-r border-dashed border-black/15 flex flex-col justify-center lg:justify-between gap-6 py-8 lg:py-0">
-                  <h1 className="uppercase pt-0 lg:pt-15 mr-0 lg:mr-10 text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold font-title tracking-wider welcome-title leading-20">
+                  <h1 className="uppercase pt-0 lg:pt-15 mr-0 lg:mr-10 text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold font-title tracking-wider welcome-title xl:leading-20">
                      КАЧЕСТВЕННЫЙ АСФАЛЬТ ДЛЯ ДВОРОВ, ДОРОГ И ПАРКОВОК
                   </h1>
                   <div className="max-w-full sm:max-w-80 lg:max-w-70">
@@ -164,7 +164,7 @@ export function Header({ className }: Props) {
                         <span className="block welcome-line">каждый объект.</span>
                      </p>
                      <button className="bg-foreground text-background h-12 sm:h-13 w-full uppercase text-xs sm:text-sm tracking-wider cursor-pointer relative group overflow-hidden mb-6 lg:mb-10 welcome-button">
-                        <span className="absolute left-3 bottom-1 z-10 group-hover:text-black transition-colors duration-500">
+                        <span className="absolute left-3 bottom-1 z-10 group-hover:text-black duration-500 ease-in-out">
                            Узнать цены
                         </span>
                         <img src="/Button_logo.svg" className="absolute right-0 top-0 z-10 rotate-45 w-5 h-5" />
