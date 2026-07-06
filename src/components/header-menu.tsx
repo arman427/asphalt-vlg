@@ -1,0 +1,64 @@
+import { NavItem } from "@/constants/header-link-data";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { HEADER_DROPDOWN_DATA } from "@/constants/header-dropdown-data";
+import { cn } from "@/lib/utils";
+
+interface Props {
+   className?: string;
+   filteredMenu?: NavItem[];
+}
+
+export function HeaderMenu({ className, filteredMenu }: Props) {
+   return (
+      <nav className="hidden lg:block">
+         <ul className="flex gap-1 text-sm">
+            {filteredMenu?.map((item) => {
+               if (item.id === "prices") {
+                  return (
+                     <li key={item.id} className="bg-[#e7a63e] header-link">
+                        <Popover>
+                           <PopoverTrigger
+                              className="inline-block uppercase py-1.5 px-5 transition-all hover:bg-[#faa928] tracking-wide cursor-pointer"
+                           >
+                              {item.title}
+                           </PopoverTrigger>
+                           <PopoverContent className="w-120 bg-accent rounded-none">
+                              <div className="grid gap-px">
+                                 {
+                                    HEADER_DROPDOWN_DATA.map((item, i) => (
+                                       <a
+                                          href={item.href}
+                                          key={item.id}
+                                          className={cn("py-3 px-4 text-lg bg-[#e7a63e] transition-all hover:bg-[#faa928]", {
+                                             "border-b border-dashed border-b-black/15": i < 4
+                                          })}
+                                       >
+                                          {item.title}
+                                       </a>
+                                    ))
+                                 }
+                              </div>
+                           </PopoverContent>
+                        </Popover>
+                     </li>
+                  )
+               }
+
+               return (
+                  <li
+                     key={item.id}
+                     className="bg-[#e7a63e] header-link"
+                  >
+                     <a
+                        href={item.href}
+                        className="inline-block uppercase py-1.5 px-5 transition-all hover:bg-[#faa928] tracking-wide"
+                     >
+                        {item.title}
+                     </a>
+                  </li>
+               )
+            })}
+         </ul>
+      </nav>
+   );
+}

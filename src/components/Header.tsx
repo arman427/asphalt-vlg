@@ -7,13 +7,18 @@ import Image from "next/image";
 import { NAV_LINKS } from "@/constants/header-link-data";
 import { useGSAP } from "@gsap/react"
 import gsap from "gsap"
+import { HeaderMenu } from "./header-menu";
 
 interface Props {
    className?: string
+   itsPrices?: boolean
 }
 
-export function Header({ className }: Props) {
+export function Header({ className, itsPrices }: Props) {
    const [isMenuOpen, setIsMenuOpen] = useState(false);
+   const filteredMenu = itsPrices
+      ? NAV_LINKS.filter(item => item.id === 'main' || item.id === "prices")
+      : NAV_LINKS;
 
    useGSAP(() => {
       gsap.from(".welcome-image", {
@@ -84,10 +89,10 @@ export function Header({ className }: Props) {
          <Container className="border border-black/15 flex-1 flex flex-col p-[1.5px]">
 
             <div className="flex flex-wrap justify-between items-center gap-3 header p-3 border-t border-x border-dashed border-black/15">
-               <div className="flex items-end gap-2 sm:gap-3">
-                  <div className="relative w-10 h-10 sm:w-13 sm:h-13 shrink-0">
+               <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="relative w-10 h-10 sm:w-20 sm:h-20 shrink-0">
                      <Image
-                        src="./Header_logo.svg"
+                        src="/logotip.svg"
                         alt="Логотип"
                         fill
                         className="object-contain header-logo"
@@ -99,20 +104,7 @@ export function Header({ className }: Props) {
                   </div>
                </div>
 
-               <nav className="hidden lg:block">
-                  <ul className="flex gap-1 text-sm">
-                     {NAV_LINKS.map((item) => (
-                        <li key={item.id} className="bg-[#e7a63e] header-link">
-                           <a
-                              href={item.href}
-                              className="inline-block uppercase py-1.5 px-5 transition-all hover:bg-[#faa928] tracking-wide"
-                           >
-                              {item.title}
-                           </a>
-                        </li>
-                     ))}
-                  </ul>
-               </nav>
+               <HeaderMenu filteredMenu={filteredMenu} />
 
                <div className="flex items-center gap-2 sm:gap-3">
                   <button className="bg-foreground text-background h-10 sm:h-13 px-4 sm:w-35 sm:px-0 uppercase text-xs sm:text-sm tracking-wider cursor-pointer relative group overflow-hidden header-button">
@@ -137,7 +129,7 @@ export function Header({ className }: Props) {
             {isMenuOpen && (
                <nav className="lg:hidden border-x border-b border-dashed border-black/15">
                   <ul className="flex flex-col text-sm">
-                     {NAV_LINKS.map((item) => (
+                     {filteredMenu.map((item) => (
                         <li key={item.id} className="bg-[#e7a63e] border-t border-dashed border-black/15">
                            <a
                               href={item.href}
@@ -163,13 +155,16 @@ export function Header({ className }: Props) {
                         <span className="block welcome-line">технологии укладки и гарантия на</span>
                         <span className="block welcome-line">каждый объект.</span>
                      </p>
-                     <button className="bg-foreground text-background h-12 sm:h-13 w-full uppercase text-xs sm:text-sm tracking-wider cursor-pointer relative group overflow-hidden mb-6 lg:mb-10 welcome-button">
+                     <a
+                        href="tel:+79610599262"
+                        className="inline-block bg-foreground text-background h-12 sm:h-13 w-full uppercase text-xs sm:text-sm tracking-wider cursor-pointer relative group overflow-hidden mb-6 lg:mb-10 welcome-button"
+                     >
                         <span className="absolute left-3 bottom-1 z-10 group-hover:text-black duration-500 ease-in-out">
-                           Узнать цены
+                           Связаться
                         </span>
                         <img src="/Button_logo.svg" className="absolute right-0 top-0 z-10 rotate-45 w-5 h-5" />
                         <div className="absolute w-full h-full bg-white transition-all duration-500 ease -left-full top-0 group-hover:left-0"></div>
-                     </button>
+                     </a>
                   </div>
                </div>
                <div className="relative m-1 h-64 sm:h-80 md:h-96 lg:h-auto">

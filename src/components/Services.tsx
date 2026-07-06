@@ -29,14 +29,14 @@ export function Services({ className }: Props) {
                clipPath: "inset(0% 0% 0% 0%)",
                duration: 1,
                ease: "power3.out",
-               stagger: 0.15,
+               stagger: 0.10,
             });
          },
       });
    })
 
    return (
-      <div className="services pb-30 w-full bg-[url('/yslygi_img.png')] bg-cover bg-no-repeat relative" id="services">
+      <div className="services pb-30 w-full bg-[url('/yslygi_img.png')] bg-cover bg-no-repeat relative" id="yslygi">
          <div className="absolute inset-0 bg-linear-to-t from-black/50 via-black/30 to-transparent" />
          <Container className={cn("my-20", className)}>
             <h1 className="relative z-30 uppercase text-white [text-shadow:0_1px_2px_rgba(0,0,0,0.8)] text-2xl lg:text-3xl xl:text-4xl font-semibold font-title tracking-wider max-w-105 text-center mx-auto pt-20 mb-10">Наши услуги</h1>

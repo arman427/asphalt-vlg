@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Exo_2, Roboto } from "next/font/google";
 import "./globals.css";
-import { SmoothScrollProvider } from "@/components/smooth-scroll-provider";
+import { cn } from "@/lib/utils";
+import { Header } from "@/components/Header";
 
 const robotoSans = Roboto({
    variable: "--font-roboto-sans",
@@ -27,12 +28,10 @@ export default function RootLayout({
    return (
       <html
          lang="en"
-         className={`${robotoSans.variable} ${exo2.variable} h-full antialiased`}
+         className={cn("h-full", "antialiased", robotoSans.variable, exo2.variable, "font-sans")}
       >
-         <body className="min-h-full flex flex-col">
-            <SmoothScrollProvider>
-               {children}
-            </SmoothScrollProvider>
+         <body className="">
+            {children}
          </body>
       </html>
    );
