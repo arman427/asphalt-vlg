@@ -8,6 +8,10 @@ import { NAV_LINKS } from "@/constants/header-link-data";
 import { useGSAP } from "@gsap/react"
 import gsap from "gsap"
 import { HeaderMenu } from "./header-menu";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { HEADER_DROPDOWN_DATA } from "@/constants/header-dropdown-data";
+import Link from "next/link";
+import { DialogModal } from "./Dialog";
 
 interface Props {
    className?: string
@@ -15,7 +19,9 @@ interface Props {
 }
 
 export function Header({ className, itsPrices }: Props) {
+   const [isOpen, setIsOpen] = useState(false);
    const [isMenuOpen, setIsMenuOpen] = useState(false);
+   const [dialogOpen, setDialogOpen] = useState(false);
    const filteredMenu = itsPrices
       ? NAV_LINKS.filter(item => item.id === 'main' || item.id === "prices")
       : NAV_LINKS;
@@ -87,7 +93,6 @@ export function Header({ className, itsPrices }: Props) {
    return (
       <header className={cn("bg-accent min-h-screen lg:h-screen py-3 sm:py-5 flex", className)}>
          <Container className="border border-black/15 flex-1 flex flex-col p-[1.5px]">
-
             <div className="flex flex-wrap justify-between items-center gap-3 header p-3 border-t border-x border-dashed border-black/15">
                <div className="flex items-center gap-2 sm:gap-3">
                   <div className="relative w-10 h-10 sm:w-20 sm:h-20 shrink-0">
@@ -106,8 +111,10 @@ export function Header({ className, itsPrices }: Props) {
 
                <HeaderMenu filteredMenu={filteredMenu} />
 
+               <DialogModal open={dialogOpen} handleClose={() => setDialogOpen(false)} />
+
                <div className="flex items-center gap-2 sm:gap-3">
-                  <button className="bg-foreground text-background h-10 sm:h-13 px-4 sm:w-35 sm:px-0 uppercase text-xs sm:text-sm tracking-wider cursor-pointer relative group overflow-hidden header-button">
+                  <button onClick={() => setDialogOpen(true)} className="bg-foreground text-background h-10 sm:h-13 px-4 sm:w-35 sm:px-0 uppercase text-xs sm:text-sm tracking-wider cursor-pointer relative group overflow-hidden header-button">
                      <span className="relative z-10 group-hover:text-black duration-500 ease-in-out">
                         Рассчитать
                      </span>
@@ -129,17 +136,51 @@ export function Header({ className, itsPrices }: Props) {
             {isMenuOpen && (
                <nav className="lg:hidden border-x border-b border-dashed border-black/15">
                   <ul className="flex flex-col text-sm">
-                     {filteredMenu.map((item) => (
-                        <li key={item.id} className="bg-[#e7a63e] border-t border-dashed border-black/15">
-                           <a
-                              href={item.href}
-                              onClick={() => setIsMenuOpen(false)}
-                              className="block uppercase py-3 px-5 transition-all hover:bg-[#faa928] tracking-wide"
-                           >
-                              {item.title}
-                           </a>
-                        </li>
-                     ))}
+                     {filteredMenu?.map((item) => {
+                        if (item.id === "prices") {
+                           return (
+                              <li key={item.id} className="bg-[#e7a63e] header-link">
+                                 <Popover open={isOpen} onOpenChange={setIsOpen}>
+                                    <PopoverTrigger
+                                       className="inline-block uppercase py-1.5 px-5 transition-all hover:bg-[#faa928] tracking-wide cursor-pointer"
+                                    >
+                                       {item.title}
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-90 bg-accent rounded-none" side="bottom">
+                                       <div className="grid gap-px">
+                                          {
+                                             HEADER_DROPDOWN_DATA.map((item, i) => (
+                                                <Link
+                                                   onClick={() => setIsOpen(false)}
+                                                   scroll={false}
+                                                   href={item.href}
+                                                   key={item.id}
+                                                   className={cn("py-2 px-4 text-md bg-[#e7a63e] transition-all hover:bg-[#faa928]", {
+                                                      "border-b border-dashed border-b-black/15": i < 4
+                                                   })}
+                                                >
+                                                   {item.title}
+                                                </Link>
+                                             ))
+                                          }
+                                       </div>
+                                    </PopoverContent>
+                                 </Popover>
+                              </li>
+                           )
+                        }
+                        return (
+                           <li key={item.id} className="bg-[#e7a63e]">
+                              <a
+                                 href={item.href}
+                                 onClick={() => setIsMenuOpen(false)}
+                                 className="block uppercase py-3 px-5 transition-all hover:bg-[#faa928] tracking-wide"
+                              >
+                                 {item.title}
+                              </a>
+                           </li>
+                        )
+                     })}
                   </ul>
                </nav>
             )}
@@ -149,7 +190,7 @@ export function Header({ className, itsPrices }: Props) {
                   <h1 className="uppercase pt-0 lg:pt-15 mr-0 lg:mr-10 text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold font-title tracking-wider welcome-title xl:leading-20">
                      КАЧЕСТВЕННЫЙ АСФАЛЬТ ДЛЯ ДВОРОВ, ДОРОГ И ПАРКОВОК
                   </h1>
-                  <div className="max-w-full sm:max-w-80 lg:max-w-70">
+                  <div className="max-w-full sm:max-w-80">
                      <p className="uppercase text-xs sm:text-sm font-medium mb-4 sm:mb-5">
                         <span className="block welcome-line">Современная техника, проверенные</span>
                         <span className="block welcome-line">технологии укладки и гарантия на</span>

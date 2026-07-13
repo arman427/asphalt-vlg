@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Exo_2, Roboto } from "next/font/google";
+import { Exo_2, Montserrat, Roboto } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import { Header } from "@/components/Header";
+import { Toaster } from "@/components/ui/sonner";
+import { Footer } from "@/components/Footer";
 
-const robotoSans = Roboto({
+const robotoSans = Montserrat({
    variable: "--font-roboto-sans",
    subsets: ["latin"],
 });
@@ -32,6 +33,8 @@ export default function RootLayout({
       >
          <body className="">
             {children}
+            <Toaster position="bottom-center" />
+            <Footer />
          </body>
       </html>
    );

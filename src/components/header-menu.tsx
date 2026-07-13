@@ -2,6 +2,8 @@ import { NavItem } from "@/constants/header-link-data";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { HEADER_DROPDOWN_DATA } from "@/constants/header-dropdown-data";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { useState } from "react";
 
 interface Props {
    className?: string;
@@ -9,6 +11,8 @@ interface Props {
 }
 
 export function HeaderMenu({ className, filteredMenu }: Props) {
+   const [isOpen, setIsOpen] = useState(false);
+
    return (
       <nav className="hidden lg:block">
          <ul className="flex gap-1 text-sm">
@@ -16,7 +20,7 @@ export function HeaderMenu({ className, filteredMenu }: Props) {
                if (item.id === "prices") {
                   return (
                      <li key={item.id} className="bg-[#e7a63e] header-link">
-                        <Popover>
+                        <Popover open={isOpen} onOpenChange={setIsOpen}>
                            <PopoverTrigger
                               className="inline-block uppercase py-1.5 px-5 transition-all hover:bg-[#faa928] tracking-wide cursor-pointer"
                            >
@@ -26,15 +30,17 @@ export function HeaderMenu({ className, filteredMenu }: Props) {
                               <div className="grid gap-px">
                                  {
                                     HEADER_DROPDOWN_DATA.map((item, i) => (
-                                       <a
+                                       <Link
+                                          scroll={false}
                                           href={item.href}
                                           key={item.id}
+                                          onClick={() => setIsOpen(false)}
                                           className={cn("py-3 px-4 text-lg bg-[#e7a63e] transition-all hover:bg-[#faa928]", {
                                              "border-b border-dashed border-b-black/15": i < 4
                                           })}
                                        >
                                           {item.title}
-                                       </a>
+                                       </Link>
                                     ))
                                  }
                               </div>

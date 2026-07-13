@@ -17,74 +17,24 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
 
 export function Benefits({ className }: Props) {
    useGSAP(() => {
-      const split = new SplitText(".benefits-description", {
-         type: "lines",
-         linesClass: "split-line",
+      gsap.set(".benefits-card", {
+         opacity: 0,
+         translateY: 30,
       });
 
-      gsap.from(".benefits-title", {
-         clipPath: "inset(0% 0% 100% 0%)",
-         translateY: 50,
-         duration: 0.5,
-         ease: "circ.inOut",
-         stagger: 0.15,
-         scrollTrigger: {
-            trigger: ".benefits-title",
-            start: "top 80%",
-            end: "bottom 20%",
-            toggleActions: "play none none none",
-         }
+      ScrollTrigger.batch(".benefits-card", {
+         start: "top 80%",
+         once: true,
+         onEnter: (batch) => {
+            gsap.to(batch, {
+               opacity: 1,
+               translateY: 0,
+               duration: 1,
+               ease: "power3.out",
+               stagger: 0.10,
+            });
+         },
       });
-
-      const splits: SplitText[] = [];
-
-      gsap.utils.toArray<HTMLElement>(".benefits-card").forEach((card) => {
-         const title = card.querySelector(".benefits-card-title");
-         const icon = card.querySelector(".benefits-card-icon");
-         const description = card.querySelector(".benefits-description");
-
-         const split = new SplitText(description, {
-            type: "lines",
-            linesClass: "split-line",
-         });
-         splits.push(split);
-
-         const tl = gsap.timeline({
-            scrollTrigger: {
-               trigger: card,
-               start: "top 80%",
-               end: "bottom 20%",
-               toggleActions: "play none none none",
-            }
-         });
-
-         tl.from(card, {
-            opacity: 0,
-            clipPath: "inset(0% 0% 100% 0%)",
-            duration: 1.2,
-            ease: "circ.out",
-         })
-            .from(title, {
-               clipPath: "inset(0% 0% 100% 0%)",
-               translateY: 50,
-               duration: 0.5,
-               ease: "circ.inOut",
-            }, "-=0.6") // запускаем чуть раньше окончания предыдущей
-            .from(icon, {
-               scale: 0,
-               duration: 0.7,
-               ease: "expo.out",
-            }, "-=0.1")
-            .from(split.lines, {
-               clipPath: "inset(0% 0% 100% 0%)",
-               translateY: 30,
-               duration: 0.4,
-               ease: "power3.inOut",
-               stagger: 0.08,
-            }, "-=0.2");
-      });
-
-      return () => splits.forEach((s) => s.revert());
    });
 
    return (
