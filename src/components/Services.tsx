@@ -44,7 +44,7 @@ export function Services({ className }: Props) {
                {SERVICES_CARD.map(({ id, title, description, icon: Icon }) => (
                   <div
                      key={id}
-                     className="group service-card relative z-50 flex flex-col lg:flex-row items-start gap-4 p-6 text-white bg-black/30 backdrop-blur-md border-dashed border border-white/40"
+                     className="group service-card relative z-30 flex flex-col lg:flex-row items-start gap-4 p-6 text-white bg-black/30 backdrop-blur-md border-dashed border border-white/40"
                   >
                      <div className="shrink-0 flex items-center justify-center w-12 h-12 rounded-full bg-white/5 border border-white/10">
                         <Icon className="w-7 h-7 text-white" />

@@ -8,9 +8,10 @@ import { useState } from "react";
 interface Props {
    className?: string;
    filteredMenu?: NavItem[];
+   isFixed?: boolean;
 }
 
-export function HeaderMenu({ className, filteredMenu }: Props) {
+export function HeaderMenu({ className, filteredMenu, isFixed }: Props) {
    const [isOpen, setIsOpen] = useState(false);
 
    return (
@@ -19,14 +20,14 @@ export function HeaderMenu({ className, filteredMenu }: Props) {
             {filteredMenu?.map((item) => {
                if (item.id === "prices") {
                   return (
-                     <li key={item.id} className="bg-[#e7a63e] header-link">
+                     <li key={item.id} className={cn("bg-[#e7a63e]", { "header-link": !isFixed })}>
                         <Popover open={isOpen} onOpenChange={setIsOpen}>
                            <PopoverTrigger
                               className="inline-block uppercase py-1.5 px-5 transition-all hover:bg-[#faa928] tracking-wide cursor-pointer"
                            >
                               {item.title}
                            </PopoverTrigger>
-                           <PopoverContent className="w-120 bg-accent rounded-none">
+                           <PopoverContent className="w-120 bg-accent rounded-none relative z-200">
                               <div className="grid gap-px">
                                  {
                                     HEADER_DROPDOWN_DATA.map((item, i) => (
@@ -53,7 +54,7 @@ export function HeaderMenu({ className, filteredMenu }: Props) {
                return (
                   <li
                      key={item.id}
-                     className="bg-[#e7a63e] header-link"
+                     className={cn("bg-[#e7a63e]", { "header-link": !isFixed })}
                   >
                      <a
                         href={item.href}

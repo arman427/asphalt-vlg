@@ -44,6 +44,14 @@ const EXTRAS = [
 
 export function FeedBack() {
    const [loading, setLoading] = useState(false);
+   const [isAnimate, setIsAnimate] = useState(false);
+
+   const handleTouch = () => {
+      setIsAnimate(true);
+      setTimeout(() => {
+         setIsAnimate(false);
+      }, 500);
+   };
 
    const {
       handleSubmit,
@@ -246,9 +254,10 @@ export function FeedBack() {
 
                   <button
                      type="submit"
+                     onTouchStart={handleTouch}
                      className="w-full flex items-center justify-center mt-auto bg-accent h-14 cursor-pointer font-title font-medium relative group overflow-hidden disabled:opacity-60"
                   >
-                     <span className="relative z-10 group-hover:text-background duration-400 ease-in-out">
+                     <span className={`relative z-10 duration-400 ease-in-out group-hover:text-background ${isAnimate ? 'text-background' : ''}`}>
                         {
                            loading ? (
                               <Spinner />
@@ -257,7 +266,7 @@ export function FeedBack() {
                            )
                         }
                      </span>
-                     <div className="absolute w-full h-full bg-foreground transition-all duration-500 ease -left-full top-0 group-hover:left-0" />
+                     <div className={`absolute w-full h-full bg-foreground transition-all duration-500 -left-full top-0 group-hover:left-0 ${isAnimate ? 'left-0' : ''}`} />
                   </button>
 
                   <p className="text-center text-foreground text-xs">

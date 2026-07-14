@@ -33,6 +33,14 @@ export type FormData = z.infer<typeof schema>;
 
 export function Contacts({ className }: Props) {
    const [loading, setLoading] = useState(false);
+   const [isAnimate, setIsAnimate] = useState(false);
+
+   const handleTouch = () => {
+      setIsAnimate(true);
+      setTimeout(() => {
+         setIsAnimate(false);
+      }, 500);
+   };
 
    const form = useForm<FormData>({
       resolver: zodResolver(schema),
@@ -216,19 +224,14 @@ export function Contacts({ className }: Props) {
                      <p className="text-xs text-center mb-6">Нажимая на кнопку вы даете согласие на <span className="text-accent font-medium">обработку Ваших персональных данных</span></p>
                      <button
                         type="submit"
+                        onTouchStart={handleTouch}
                         className="w-full flex items-center justify-center bg-accent h-14 cursor-pointer font-title font-medium relative group overflow-hidden disabled:opacity-60"
                      >
-                        <span className="relative z-10 group-hover:text-background duration-400 ease-in-out">
-                           {
-                              loading ? (
-                                 <Spinner />
-                              ) : (
-                                 <span>Отправить</span>
-                              )
-                           }
+                        <span className={`relative z-10 duration-400 ease-in-out group-hover:text-background ${isAnimate ? 'text-background' : ''}`}>
+                           {loading ? <Spinner /> : <span>Отправить</span>}
                         </span>
 
-                        <div className="absolute w-full h-full bg-foreground transition-all duration-500 -left-full top-0 group-hover:left-0" />
+                        <div className={`absolute w-full h-full bg-foreground transition-all duration-500 -left-full top-0 group-hover:left-0 ${isAnimate ? 'left-0' : ''}`} />
                      </button>
                   </form>
                </div>

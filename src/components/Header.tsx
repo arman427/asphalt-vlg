@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils"
 import { Container } from "./container";
 import Image from "next/image";
@@ -12,6 +12,10 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { HEADER_DROPDOWN_DATA } from "@/constants/header-dropdown-data";
 import Link from "next/link";
 import { DialogModal } from "./Dialog";
+import { FixedHeader } from "./Fixed-Header";
+import { X } from "lucide-react";
+import { BackToTop } from "./backToTop";
+import { FixedFeedBack } from "./Fixed-Feedback";
 
 interface Props {
    className?: string
@@ -22,6 +26,27 @@ export function Header({ className, itsPrices }: Props) {
    const [isOpen, setIsOpen] = useState(false);
    const [isMenuOpen, setIsMenuOpen] = useState(false);
    const [dialogOpen, setDialogOpen] = useState(false);
+   const [isAnimate, setIsAnimate] = useState(false);
+
+   const handleTouch = () => {
+      setIsAnimate(true);
+      setTimeout(() => {
+         setIsAnimate(false);
+      }, 500);
+   };
+
+   useEffect(() => {
+      if (isMenuOpen) {
+         document.body.style.overflow = "hidden"
+      } else {
+         document.body.style.overflow = ""
+      }
+
+      return () => {
+         document.body.style.overflow = ""
+      }
+   }, [isMenuOpen]);
+
    const filteredMenu = itsPrices
       ? NAV_LINKS.filter(item => item.id === 'main' || item.id === "prices")
       : NAV_LINKS;
@@ -92,6 +117,8 @@ export function Header({ className, itsPrices }: Props) {
 
    return (
       <header className={cn("bg-accent min-h-screen lg:h-screen py-3 sm:py-5 flex", className)}>
+         <BackToTop />
+         <FixedFeedBack />
          <Container className="border border-black/15 flex-1 flex flex-col p-[1.5px]">
             <div className="flex flex-wrap justify-between items-center gap-3 header p-3 border-t border-x border-dashed border-black/15">
                <div className="flex items-center gap-2 sm:gap-3">
@@ -133,25 +160,38 @@ export function Header({ className, itsPrices }: Props) {
                </div>
             </div>
 
+            <FixedHeader filteredMenu={filteredMenu} />
+
             {isMenuOpen && (
-               <nav className="lg:hidden border-x border-b border-dashed border-black/15">
-                  <ul className="flex flex-col text-sm">
-                     {filteredMenu?.map((item) => {
-                        if (item.id === "prices") {
-                           return (
-                              <li key={item.id} className="bg-[#e7a63e] header-link">
-                                 <Popover open={isOpen} onOpenChange={setIsOpen}>
-                                    <PopoverTrigger
-                                       className="inline-block uppercase py-1.5 px-5 transition-all hover:bg-[#faa928] tracking-wide cursor-pointer"
-                                    >
-                                       {item.title}
-                                    </PopoverTrigger>
-                                    <PopoverContent className="w-90 bg-accent rounded-none" side="bottom">
-                                       <div className="grid gap-px">
-                                          {
-                                             HEADER_DROPDOWN_DATA.map((item, i) => (
+               <div className="lg:hidden fixed inset-0 z-50 bg-[#e7a63e] flex flex-col">
+                  {/* Шапка с кнопкой закрытия */}
+                  <div className="flex items-center justify-between px-5 py-4 border-b border-dashed border-black/15">
+                     <span className="text-sm font-medium uppercase tracking-wide">Меню</span>
+                     <button
+                        onClick={() => setIsMenuOpen(false)}
+                        className="p-1.5 transition-all hover:bg-[#faa928] rounded"
+                        aria-label="Закрыть меню"
+                     >
+                        <X className="w-5 h-5" />
+                     </button>
+                  </div>
+
+                  {/* Навигация */}
+                  <nav className="flex-1 overflow-y-auto">
+                     <ul className="flex flex-col text-sm">
+                        {filteredMenu?.map((item) => {
+                           if (item.id === "prices") {
+                              return (
+                                 <li key={item.id} className="border-b border-dashed border-black/15">
+                                    <Popover open={isOpen} onOpenChange={setIsOpen}>
+                                       <PopoverTrigger className="w-full text-left uppercase py-4 px-5 transition-all hover:bg-[#faa928] tracking-wide cursor-pointer">
+                                          {item.title}
+                                       </PopoverTrigger>
+                                       <PopoverContent className="w-90 bg-accent rounded-none" side="bottom">
+                                          <div className="grid gap-px">
+                                             {HEADER_DROPDOWN_DATA.map((item, i) => (
                                                 <Link
-                                                   onClick={() => setIsOpen(false)}
+                                                   onClick={() => { setIsOpen(false); setIsMenuOpen(false); }}
                                                    scroll={false}
                                                    href={item.href}
                                                    key={item.id}
@@ -161,28 +201,28 @@ export function Header({ className, itsPrices }: Props) {
                                                 >
                                                    {item.title}
                                                 </Link>
-                                             ))
-                                          }
-                                       </div>
-                                    </PopoverContent>
-                                 </Popover>
+                                             ))}
+                                          </div>
+                                       </PopoverContent>
+                                    </Popover>
+                                 </li>
+                              )
+                           }
+                           return (
+                              <li key={item.id} className="border-b border-dashed border-black/15">
+                                 <a
+                                    href={item.href}
+                                    onClick={() => setIsMenuOpen(false)}
+                                    className="block uppercase py-4 px-5 transition-all hover:bg-[#faa928] tracking-wide"
+                                 >
+                                    {item.title}
+                                 </a>
                               </li>
                            )
-                        }
-                        return (
-                           <li key={item.id} className="bg-[#e7a63e]">
-                              <a
-                                 href={item.href}
-                                 onClick={() => setIsMenuOpen(false)}
-                                 className="block uppercase py-3 px-5 transition-all hover:bg-[#faa928] tracking-wide"
-                              >
-                                 {item.title}
-                              </a>
-                           </li>
-                        )
-                     })}
-                  </ul>
-               </nav>
+                        })}
+                     </ul>
+                  </nav>
+               </div>
             )}
 
             <div className="border border-dashed border-black/15 flex flex-col lg:grid lg:grid-cols-[1fr_1fr] w-full min-h-0 flex-1">
@@ -198,13 +238,14 @@ export function Header({ className, itsPrices }: Props) {
                      </p>
                      <a
                         href="tel:+79610599262"
+                        onTouchStart={handleTouch}
                         className="inline-block bg-foreground text-background h-12 sm:h-13 w-full uppercase text-xs sm:text-sm tracking-wider cursor-pointer relative group overflow-hidden mb-6 lg:mb-10 welcome-button"
                      >
-                        <span className="absolute left-3 bottom-1 z-10 group-hover:text-black duration-500 ease-in-out">
+                        <span className={`absolute left-3 bottom-1 z-10 duration-500 ease-in-out group-hover:text-foreground ${isAnimate ? 'text-foreground' : ''}`}>
                            Связаться
                         </span>
                         <img src="/Button_logo.svg" className="absolute right-0 top-0 z-10 rotate-45 w-5 h-5" />
-                        <div className="absolute w-full h-full bg-white transition-all duration-500 ease -left-full top-0 group-hover:left-0"></div>
+                        <div className={`absolute w-full h-full bg-white transition-all duration-500 ease -left-full top-0 group-hover:left-0 ${isAnimate ? 'left-0' : ''}`}></div>
                      </a>
                   </div>
                </div>
@@ -218,6 +259,6 @@ export function Header({ className, itsPrices }: Props) {
                </div>
             </div>
          </Container>
-      </header>
+      </header >
    );
 };

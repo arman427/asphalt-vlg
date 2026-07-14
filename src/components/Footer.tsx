@@ -17,7 +17,7 @@ export function Footer({ className }: Props) {
                   <nav>
                      <ul className="grid gap-2">
                         {NAV.map((item) => (
-                           <li className="text-[17px] font-light hover:text-accent transition-colors" key={item.id}><a href={item.href}>{item.title}</a></li>
+                           <li className="text-[17px] font-light duration-100 active:text-accent md:hover:text-accent md:transition-colors" key={item.id}><a href={item.href}>{item.title}</a></li>
                         ))}
                      </ul>
                   </nav>
@@ -27,7 +27,7 @@ export function Footer({ className }: Props) {
                   <nav>
                      <ul className="grid gap-2">
                         {HEADER_DROPDOWN_DATA.map((item) => (
-                           <li className="text-[17px] font-light hover:text-accent transition-colors" key={item.id}><a href={item.href}>{item.title}</a></li>
+                           <li className="text-[17px] font-light duration-100 active:text-accent md:hover:text-accent md:transition-colors" key={item.id}><a href={item.href}>{item.title}</a></li>
                         ))}
                      </ul>
                   </nav>
@@ -35,10 +35,10 @@ export function Footer({ className }: Props) {
                <div>
                   <h4 className="text-[20px] font-semibold mb-3 text-accent font-title">Связь с нами</h4>
                   <div className="grid gap-2">
-                     <a href="tel:+79610599262" className="block  text-[17px] font-light hover:text-accent transition-colors">+7 (961) 059 92-62</a>
-                     <a href="mailto:babayananuta11@gmail.com" className=" text-[17px] font-light hover:text-accent transition-colors">babayananuta11@gmail.com</a>
-                     <p className=" text-[17px] font-light hover:text-accent transition-colors">Адрес: г. Волгоград, улица Пушкина офис 777</p>
-                     <p className=" text-[17px] font-light hover:text-accent transition-colors">Режим работы: 8:00-23:00 (воскресенье - выходной)</p>
+                     <a href="tel:+79610599262" className="block text-[17px] font-light duration-100 active:text-accent md:hover:text-accent md:transition-colors">+7 (961) 059 92-62</a>
+                     <a href="mailto:babayananuta11@gmail.com" className="text-[17px] font-light duration-100 active:text-accent md:hover:text-accent md:transition-colors">babayananuta11@gmail.com</a>
+                     <p className="text-[17px] font-light duration-100 active:text-accent md:hover:text-accent md:transition-colors">Адрес: г. Волгоград, улица Пушкина офис 777</p>
+                     <p className="text-[17px] font-light duration-100 active:text-accent md:hover:text-accent md:transition-colors">Режим работы: 8:00-23:00 (воскресенье - выходной)</p>
                   </div>
                </div>
             </div>
