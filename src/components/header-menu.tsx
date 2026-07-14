@@ -16,7 +16,7 @@ export function HeaderMenu({ className, filteredMenu, isFixed }: Props) {
 
    return (
       <nav className="hidden lg:block">
-         <ul className="flex gap-1 text-sm">
+         <ul className="flex gap-0.5 text-sm">
             {filteredMenu?.map((item) => {
                if (item.id === "prices") {
                   return (

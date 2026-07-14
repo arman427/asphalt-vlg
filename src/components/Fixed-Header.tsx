@@ -4,7 +4,6 @@ import { DialogModal } from "./Dialog";
 import Image from "next/image";
 import { NavItem } from "@/constants/header-link-data";
 import { useState, useEffect } from "react";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { X } from "lucide-react";
 import { HEADER_DROPDOWN_DATA } from "@/constants/header-dropdown-data";
 import Link from "next/link";
@@ -18,7 +17,7 @@ export function FixedHeader({ className, filteredMenu }: Props) {
    const [isMenuOpen, setIsMenuOpen] = useState(false);
    const [dialogOpen, setDialogOpen] = useState(false);
    const [isVisible, setIsVisible] = useState(false);
-   const [isOpen, setIsOpen] = useState(false);
+   const [isPricesOpen, setIsPricesOpen] = useState(false);
 
    useEffect(() => {
       const handleScroll = () => {
@@ -109,7 +108,7 @@ export function FixedHeader({ className, filteredMenu }: Props) {
             </div>
          </div>
          {isMenuOpen && (
-            <div className="lg:hidden fixed inset-0 z-50 bg-[#e7a63e] flex flex-col">
+            <div className="lg:hidden fixed inset-0 z-70 bg-[#e7a63e] flex flex-col">
                {/* Шапка с кнопкой закрытия */}
                <div className="flex items-center justify-between px-5 py-4 border-b border-dashed border-black/15">
                   <span className="text-sm font-medium uppercase tracking-wide">Меню</span>
@@ -129,31 +128,36 @@ export function FixedHeader({ className, filteredMenu }: Props) {
                         if (item.id === "prices") {
                            return (
                               <li key={item.id} className="border-b border-dashed border-black/15">
-                                 <Popover open={isOpen} onOpenChange={setIsOpen}>
-                                    <PopoverTrigger className="w-full text-left uppercase py-4 px-5 transition-all hover:bg-[#faa928] tracking-wide cursor-pointer">
-                                       {item.title}
-                                    </PopoverTrigger>
-                                    <PopoverContent className="w-90 bg-accent rounded-none" side="bottom">
-                                       <div className="grid gap-px">
-                                          {HEADER_DROPDOWN_DATA.map((item, i) => (
+                                 <button
+                                    onClick={() => setIsPricesOpen((v) => !v)}
+                                    className="w-full text-left uppercase py-4 px-5 transition-all hover:bg-[#faa928] tracking-wide cursor-pointer flex justify-between items-center"
+                                 >
+                                    {item.title}
+                                    <span className={cn("text-xs transition-transform duration-200", isPricesOpen && "rotate-180")}>▼</span>
+                                 </button>
+                                 {isPricesOpen && (
+                                    <ul className="border-t border-dashed border-black/15">
+                                       {HEADER_DROPDOWN_DATA.map((drop, i) => (
+                                          <li
+                                             key={drop.id}
+                                             className={cn(i < HEADER_DROPDOWN_DATA.length - 1 && "border-b border-dashed border-black/15")}
+                                          >
                                              <Link
-                                                onClick={() => { setIsOpen(false); setIsMenuOpen(false); }}
+                                                href={drop.href}
                                                 scroll={false}
-                                                href={item.href}
-                                                key={item.id}
-                                                className={cn("py-2 px-4 text-md bg-[#e7a63e] transition-all hover:bg-[#faa928]", {
-                                                   "border-b border-dashed border-b-black/15": i < 4
-                                                })}
+                                                onClick={() => { setIsPricesOpen(false); setIsMenuOpen(false); }}
+                                                className="block py-3 px-8 text-sm transition-all hover:bg-[#faa928]"
                                              >
-                                                {item.title}
+                                                {drop.title}
                                              </Link>
-                                          ))}
-                                       </div>
-                                    </PopoverContent>
-                                 </Popover>
+                                          </li>
+                                       ))}
+                                    </ul>
+                                 )}
                               </li>
-                           )
+                           );
                         }
+
                         return (
                            <li key={item.id} className="border-b border-dashed border-black/15">
                               <a
@@ -164,12 +168,13 @@ export function FixedHeader({ className, filteredMenu }: Props) {
                                  {item.title}
                               </a>
                            </li>
-                        )
+                        );
                      })}
                   </ul>
                </nav>
-            </div>
-         )}
+            </div >
+         )
+         }
       </>
    );
 }
