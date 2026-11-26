@@ -1,62 +1,39 @@
-import { cn } from "@/lib/utils";
 import { Container } from "./container";
+import { SectionHeading } from "./SectionHeading";
 import { PROCESS_DATA } from "@/constants/process-data";
 
-interface Props {
-   className?: string
-}
-
-export function Process({ className }: Props) {
+/** Этапы работы — дорога на асфальте: шаги соединены пунктиром разметки */
+export function Process() {
    return (
-      <div className="bg-accent py-20" id="etapy">
-         <Container className={cn("", className)}>
-            <h1 className="uppercase text-2xl lg:text-3xl xl:text-4xl font-semibold font-title tracking-wider text-center mb-10">
-               Этапы работы
-            </h1>
+      <section id="etapy" aria-labelledby="process-title" className="bg-asphalt py-20 text-chalk md:py-28">
+         <Container>
+            <SectionHeading id="process-title" tone="dark" eyebrow="Этапы работы" title="От заявки до сдачи объекта" />
 
-            {/* relative — чтобы разместить fade-оверлей поверх грида */}
-            <div className="relative">
-               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-                  {PROCESS_DATA.map((item, index) => {
-                     const isLast = index === PROCESS_DATA.length - 1;
+            <ol className="mt-14 grid gap-10 lg:mt-20 lg:grid-cols-6 lg:gap-6">
+               {PROCESS_DATA.map((step, index) => {
+                  const isLast = index === PROCESS_DATA.length - 1;
 
-                     return (
-                        <div
-                           key={index}
-                           className={cn(
-                              "w-full p-8 border-dashed border-white/40",
-                              // mobile: 1 колонка — только border-b, кроме последнего
-                              !isLast ? "border-b" : "border-b-0",
-                              // sm: 2 колонки
-                              index % 2 === 0 ? "sm:border-r" : "sm:border-r-0",
-                              index < PROCESS_DATA.length - 2 ? "sm:border-b" : "sm:border-b-0",
-                              // lg: 3 колонки (твоя исходная логика)
-                              index % 3 !== 2 ? "lg:border-r" : "lg:border-r-0",
-                              index < 3 ? "lg:border-b" : "lg:border-b-0",
-                           )}
-                        >
-                           <div className="max-w-130">
-                              <div className="relative">
-                                 <span
-                                    className="absolute left-0 -top-10 sm:-top-12 lg:-top-16 xl:-top-20 text-6xl sm:text-7xl lg:text-8xl font-title leading-none text-white/70 pointer-events-none select-none [mask-image:linear-gradient(to_bottom,black_35%,transparent_85%)] [-webkit-mask-image:linear-gradient(to_bottom,black_35%,transparent_85%)]"
-                                 >
-                                    0{index + 1}
-                                 </span>
-
-                                 <h4 className="uppercase text-lg sm:text-xl lg:text-2xl xl:text-3xl mt-10 sm:mt-12 lg:mt-16 xl:mt-20 mb-2 font-medium tracking-tighter">
-                                    {item.title}
-                                 </h4>
-                              </div>
-                              <p className="text-black/70 leading-relaxed text-sm sm:text-base">
-                                 {item.text}
-                              </p>
-                           </div>
+                  return (
+                     <li key={step.title} data-reveal className="relative grid grid-cols-[40px_1fr] gap-x-5 lg:block">
+                        {!isLast && (
+                           <>
+                              {/* Разметка до следующего шага: вертикально на телефоне, горизонтально на десктопе */}
+                              <span aria-hidden className="road-line-y absolute top-12 -bottom-8 left-[18px] w-1 lg:hidden" />
+                              <span aria-hidden className="road-line-x absolute top-[18px] -right-2 left-14 hidden h-1 lg:block" />
+                           </>
+                        )}
+                        <span className="relative flex size-10 items-center justify-center rounded-md border border-asphalt-line bg-asphalt-raised font-mono text-sm text-brand tabular-nums">
+                           {String(index + 1).padStart(2, "0")}
+                        </span>
+                        <div className="pb-2 lg:mt-6 lg:pb-0">
+                           <h3 className="pt-2 text-lg leading-snug font-semibold text-chalk lg:pt-0">{step.title}</h3>
+                           <p className="mt-2 text-[15px] leading-6 text-chalk-subtle">{step.text}</p>
                         </div>
-                     );
-                  })}
-               </div>
-            </div>
+                     </li>
+                  );
+               })}
+            </ol>
          </Container>
-      </div>
+      </section>
    );
 }

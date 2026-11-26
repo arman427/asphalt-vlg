@@ -1,78 +1,31 @@
-"use client";
-
-import { cn } from "@/lib/utils"
 import { Container } from "./container";
+import { SectionHeading } from "./SectionHeading";
 import { BENEFITS_CARD_DATA } from "@/constants/benefits-card-data";
-import Image from "next/image";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { SplitText } from "gsap/SplitText";
 
-interface Props {
-   className?: string
-}
-
-gsap.registerPlugin(ScrollTrigger, SplitText);
-
-export function Benefits({ className }: Props) {
-   useGSAP(() => {
-      gsap.set(".benefits-card", {
-         opacity: 0,
-         translateY: 30,
-      });
-
-      ScrollTrigger.batch(".benefits-card", {
-         start: "top 80%",
-         once: true,
-         onEnter: (batch) => {
-            gsap.to(batch, {
-               opacity: 1,
-               translateY: 0,
-               duration: 1,
-               ease: "power3.out",
-               stagger: 0.10,
-            });
-         },
-      });
-   });
-
+export function Benefits() {
    return (
-      <Container className={cn("mb-30", className)}>
-         <p className="uppercase text-2xl lg:text-3xl xl:text-4xl font-semibold font-title tracking-wider max-w-105 text-center mx-auto mt-20">
-            <span className="block benefits-title">ГИБКИЕ РЕШЕНИЯ</span>
-            <span className="block benefits-title">ДЛЯ КАЧЕСТВЕННОГО</span>
-            <span className="block benefits-title">АСФАЛЬТИРОВАНИЯ</span>
-         </p>
-         <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mt-15">
-            {
-               BENEFITS_CARD_DATA.map(({ id, title, description, imageUrl, icon: Icon }) => (
-                  <div key={id} className="w-full h-120 bg-[#f7f7f7] flex flex-col justify-between border-dashed border border-black/5 benefits-card">
-                     <div className="flex justify-between items-center">
-                        <h3 className="text-xl font-medium pl-6 pt-3 whitespace-pre-line benefits-card-title">{title}</h3>
-                        <Image
-                           src="/Button_logo.svg"
-                           alt="Иконка"
-                           width={50}
-                           height={50}
-                           className="rotate-45 p-3"
-                        />
-                     </div>
+      <section aria-labelledby="benefits-title" className="bg-raised py-20 md:py-28">
+         <Container className="grid gap-12 lg:grid-cols-12 lg:gap-8">
+            <div className="lg:col-span-4">
+               <SectionHeading id="benefits-title" eyebrow="Подход" title="Считаем точно, укладываем по технологии" />
+            </div>
 
-                     <div className="text-center mx-auto benefits-card-icon">
-                        <Image
-                           src={imageUrl}
-                           alt="Фотка"
-                           width={300}
-                           height={300}
-                        />
-                     </div>
-
-                     <p className="mb-10 uppercase text-black/60 text-sm text-center mx-auto max-w-[45ch] text-balance benefits-description">{description}</p>
-                  </div>
-               ))
-            }
-         </div>
-      </Container>
+            <ul className="divide-y divide-foreground/12 border-y border-foreground/12 lg:col-span-8">
+               {BENEFITS_CARD_DATA.map(({ id, title, description, icon: Icon }) => (
+                  <li
+                     key={id}
+                     data-reveal
+                     className="grid grid-cols-[48px_1fr] items-start gap-x-5 gap-y-2 py-8 md:grid-cols-[48px_minmax(0,1fr)_minmax(0,1.3fr)] md:gap-x-8"
+                  >
+                     <span className="row-span-2 flex size-12 items-center justify-center rounded-lg border border-border bg-card text-subtle md:row-span-1">
+                        <Icon size={20} strokeWidth={1.5} />
+                     </span>
+                     <h3 className="pt-2.5 text-xl leading-7 font-semibold text-foreground">{title}</h3>
+                     <p className="text-[17px] leading-7 text-subtle md:pt-2.5">{description}</p>
+                  </li>
+               ))}
+            </ul>
+         </Container>
+      </section>
    );
 }

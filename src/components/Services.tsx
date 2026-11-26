@@ -1,62 +1,37 @@
-"use client";
-
-import { cn } from "@/lib/utils"
+import Image from "next/image";
 import { Container } from "./container";
+import { SectionHeading } from "./SectionHeading";
 import { SERVICES_CARD } from "@/constants/services-card-data";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
 
-interface Props {
-   className?: string
-}
-
-gsap.registerPlugin(ScrollTrigger);
-
-export function Services({ className }: Props) {
-   useGSAP(() => {
-      gsap.set(".service-card", {
-         opacity: 0,
-         translateY: 30,
-      });
-
-      ScrollTrigger.batch(".service-card", {
-         start: "top 80%",
-         once: true,
-         onEnter: (batch) => {
-            gsap.to(batch, {
-               opacity: 1,
-               translateY: 0,
-               duration: 1,
-               ease: "power3.out",
-               stagger: 0.10,
-            });
-         },
-      });
-   })
-
+export function Services() {
    return (
-      <div className="services pb-30 w-full bg-[url('/yslygi_img.png')] bg-cover bg-no-repeat relative" id="yslygi">
-         <div className="absolute inset-0 bg-linear-to-t from-black/50 via-black/30 to-black/10" />
-         <Container className={cn("my-20", className)}>
-            <h1 className="relative z-30 uppercase text-white [text-shadow:0_1px_2px_rgba(0,0,0,0.8)] text-2xl lg:text-3xl xl:text-4xl font-semibold font-title tracking-wider max-w-105 text-center mx-auto pt-20 mb-10">Наши услуги</h1>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-16 gap-x-12 mt-10">
-               {SERVICES_CARD.map(({ id, title, description, icon: Icon }) => (
-                  <div
-                     key={id}
-                     className="group service-card relative z-30 flex flex-col lg:flex-row items-start gap-4 p-6 text-white bg-black/30 backdrop-blur-md border-dashed border border-white/40"
-                  >
-                     <div className="shrink-0 flex items-center justify-center w-12 h-12 rounded-full bg-white/5 border border-white/10">
-                        <Icon className="w-7 h-7 text-white" />
-                     </div>
-                     <div className="text-left">
-                        <h3 className="font-semibold text-lg mb-1 text-white uppercase">{title}</h3>
-                        <p className="text-sm text-white/70 leading-relaxed">{description}</p>
-                     </div>
-                  </div>
-               ))}
+      <section id="yslygi" aria-labelledby="services-title" className="border-t border-border py-20 md:py-28">
+         <Container>
+            <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+               <SectionHeading id="services-title" eyebrow="Услуги" title="Что мы асфальтируем" />
+               <p className="max-w-sm text-[17px] leading-7 text-subtle">
+                  От частного двора до промплощадки под фуры — подбираем покрытие под нагрузку объекта
+               </p>
             </div>
+
+            <ul className="mt-12 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3">
+               {SERVICES_CARD.map(({ id, title, description, imageUrl, imageAlt }) => (
+                  <li key={id} data-reveal>
+                     <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-raised">
+                        <Image
+                           src={imageUrl}
+                           alt={imageAlt}
+                           fill
+                           sizes="(min-width: 1024px) 410px, (min-width: 640px) 50vw, 100vw"
+                           className="object-cover"
+                        />
+                     </div>
+                     <h3 className="mt-5 text-xl leading-snug font-semibold text-foreground">{title}</h3>
+                     <p className="mt-2 text-[15px] leading-6 text-subtle">{description}</p>
+                  </li>
+               ))}
+            </ul>
          </Container>
-      </div>
+      </section>
    );
 }

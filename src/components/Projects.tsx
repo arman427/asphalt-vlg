@@ -1,47 +1,38 @@
-"use client";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { Container } from "./container";
+import { Eyebrow } from "./SectionHeading";
+import { buttonVariants } from "./ui/button";
+import { PRICE_CATEGORIES, priceHref } from "@/constants/prices-data";
 
-import { cn } from "@/lib/utils";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import { Navigation } from "swiper/modules";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-
-interface Props {
-   className?: string
-}
-
-export function Projects({ className }: Props) {
+/** Пока нет фото сданных объектов — честный пустой блок вместо слайдов-заглушек */
+export function Projects() {
    return (
-      <div className={cn("mt-30", className)} id="nashi-raboti">
-         <h1 className="uppercase text-2xl lg:text-3xl xl:text-4xl font-semibold font-title tracking-wider text-center mb-10">
-            Наши работы
-         </h1>
-         <Swiper
-            spaceBetween={1}
-            slidesPerView={4}
-            navigation={{
-               nextEl: ".button-next-swiper",
-               prevEl: ".button-prev-swiper",
-            }}
-            modules={[Navigation]}
-            className="w-full relative"
-         >
-            {Array.from({ length: 10 }, (_, index) => (
-               <SwiperSlide key={index}>
-                  <div className="relative bg-accent/60 w-full h-100 flex items-center justify-center">
-                     РАБОТ ПОКА НЕТ
-                  </div>
-               </SwiperSlide>
-            ))}
-            <button className="button-prev-swiper absolute left-10 top-1/2 -translate-y-1/2 z-10 p-2 h-15 bg-accent flex items-center justify-center text-black/75 cursor-pointer border border-black/40">
-               <ChevronLeft size={30} />
-            </button>
-
-            <button className="button-next-swiper absolute right-10 top-1/2 -translate-y-1/2 z-10 p-2 h-15 bg-accent flex items-center justify-center text-black/75 cursor-pointer border border-black/40">
-               <ChevronRight size={30} />
-            </button>
-         </Swiper>
-
-      </div>
+      <section id="nashi-raboti" aria-labelledby="projects-title" className="pb-20 md:pb-28">
+         <Container>
+            <div
+               data-reveal
+               className="grid gap-8 rounded-2xl bg-raised p-8 md:grid-cols-[1fr_auto] md:items-end md:gap-12 md:p-12"
+            >
+               <div>
+                  <Eyebrow>Наши работы</Eyebrow>
+                  <h2 id="projects-title" className="mt-4 font-display text-[32px] leading-[1.05] md:text-4xl">
+                     Портфолио пополняется
+                  </h2>
+                  <p className="mt-4 max-w-xl text-[17px] leading-7 text-subtle">
+                     Фотографии сданных объектов появятся здесь. Пока можно посмотреть цены по видам работ или
+                     заказать расчёт для своего участка.
+                  </p>
+               </div>
+               <Link
+                  href={priceHref(PRICE_CATEGORIES[0].slug)}
+                  className={buttonVariants({ variant: "dark", size: "lg", className: "justify-self-start" })}
+               >
+                  Цены по видам работ
+                  <ArrowRight size={18} strokeWidth={1.5} />
+               </Link>
+            </div>
+         </Container>
+      </section>
    );
 }

@@ -2,89 +2,92 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+/*
+ * Палитра «Асфальт и разметка».
+ * Светлые поверхности — тёплый бетон, тёмные секции — свежий асфальт,
+ * сигнальный жёлтый — только акцент: главное действие, выделение, разметка.
+ */
 :root {
-   --background: #f9f9f9;
-   --foreground: #080808;
-   --color-accent: #f3af41;
-   --card: oklch(1 0 0);
-   --card-foreground: oklch(0.145 0 0);
-   --popover: oklch(1 0 0);
-   --popover-foreground: oklch(0.145 0 0);
-   --primary: oklch(0.205 0 0);
-   --primary-foreground: oklch(0.985 0 0);
-   --secondary: oklch(0.97 0 0);
-   --secondary-foreground: oklch(0.205 0 0);
-   --muted: oklch(0.97 0 0);
-   --muted-foreground: oklch(0.556 0 0);
-   --accent: oklch(0.97 0 0);
-   --accent-foreground: oklch(0.205 0 0);
-   --destructive: oklch(0.577 0.245 27.325);
-   --border: oklch(0.922 0 0);
-   --input: oklch(0.922 0 0);
-   --ring: oklch(0.708 0 0);
-   --chart-1: oklch(0.87 0 0);
-   --chart-2: oklch(0.556 0 0);
-   --chart-3: oklch(0.439 0 0);
-   --chart-4: oklch(0.371 0 0);
-   --chart-5: oklch(0.269 0 0);
+   /* Светлые поверхности */
+   --background: #f5f3ee;
+   --card: #fcfbf8;
+   --raised: #ebe7df;
+
+   /* Текст на светлом: основной, вторичный, приглушённый */
+   --foreground: #1d1b18;
+   --subtle: #59534b;
+   --faint: #6f695f;
+
+   --border: rgb(29 27 24 / 0.1);
+   --input: rgb(29 27 24 / 0.18);
+
+   /* Асфальт: тёмные секции, футер, баннер */
+   --asphalt: #161513;
+   --asphalt-raised: #211f1c;
+   --asphalt-line: rgb(239 235 228 / 0.1);
+   --chalk: #efebe4;
+   --chalk-subtle: #aea79b;
+   --chalk-faint: #8d877c;
+
+   /* Сигнальный жёлтый — фирменный цвет */
+   --brand: #f3af41;
+   --brand-hover: #e9a12f;
+   /* Тот же жёлтый, затемнённый до 5:1 — для текста и фокуса на светлом */
+   --brand-ink: #8f5a06;
+
+   --destructive: #c2362b;
+
    --radius: 0.625rem;
-   --sidebar: oklch(0.985 0 0);
-   --sidebar-foreground: oklch(0.145 0 0);
-   --sidebar-primary: oklch(0.205 0 0);
-   --sidebar-primary-foreground: oklch(0.985 0 0);
-   --sidebar-accent: oklch(0.97 0 0);
-   --sidebar-accent-foreground: oklch(0.205 0 0);
-   --sidebar-border: oklch(0.922 0 0);
-   --sidebar-ring: oklch(0.708 0 0);
+   --header-h: 4rem;
 }
 
-@theme {
+@theme inline {
+   --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
+   --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+
    --color-background: var(--background);
    --color-foreground: var(--foreground);
-   --color-accent: var(--color-accent);
-   --font-sans: var(--font-roboto-sans);
-   --font-title: var(--font-exo-sans);
-   --color-sidebar-ring: var(--sidebar-ring);
-   --color-sidebar-border: var(--sidebar-border);
-   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-   --color-sidebar-accent: var(--sidebar-accent);
-   --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-   --color-sidebar-primary: var(--sidebar-primary);
-   --color-sidebar-foreground: var(--sidebar-foreground);
-   --color-sidebar: var(--sidebar);
-   --color-chart-5: var(--chart-5);
-   --color-chart-4: var(--chart-4);
-   --color-chart-3: var(--chart-3);
-   --color-chart-2: var(--chart-2);
-   --color-chart-1: var(--chart-1);
-   --color-ring: var(--ring);
-   --color-input: var(--input);
-   --color-border: var(--border);
-   --color-destructive: var(--destructive);
-   --color-accent-foreground: var(--accent-foreground);
-   --color-accent: var(--accent);
-   --color-muted-foreground: var(--muted-foreground);
-   --color-muted: var(--muted);
-   --color-secondary-foreground: var(--secondary-foreground);
-   --color-secondary: var(--secondary);
-   --color-primary-foreground: var(--primary-foreground);
-   --color-primary: var(--primary);
-   --color-popover-foreground: var(--popover-foreground);
-   --color-popover: var(--popover);
-   --color-card-foreground: var(--card-foreground);
    --color-card: var(--card);
+   --color-card-foreground: var(--foreground);
+   --color-raised: var(--raised);
+   --color-subtle: var(--subtle);
+   --color-faint: var(--faint);
+
+   --color-asphalt: var(--asphalt);
+   --color-asphalt-raised: var(--asphalt-raised);
+   --color-asphalt-line: var(--asphalt-line);
+   --color-chalk: var(--chalk);
+   --color-chalk-subtle: var(--chalk-subtle);
+   --color-chalk-faint: var(--chalk-faint);
+
+   --color-brand: var(--brand);
+   --color-brand-hover: var(--brand-hover);
+   --color-brand-ink: var(--brand-ink);
+
+   /* Совместимость с компонентами shadcn */
+   --color-primary: var(--foreground);
+   --color-primary-foreground: var(--card);
+   --color-secondary: var(--raised);
+   --color-secondary-foreground: var(--foreground);
+   --color-muted: var(--raised);
+   --color-muted-foreground: var(--faint);
+   --color-accent: var(--brand);
+   --color-accent-foreground: var(--foreground);
+   --color-popover: var(--card);
+   --color-popover-foreground: var(--foreground);
+   --color-border: var(--border);
+   --color-input: var(--input);
+   --color-ring: var(--brand-ink);
+   --color-destructive: var(--destructive);
+
    --radius-sm: calc(var(--radius) * 0.6);
    --radius-md: calc(var(--radius) * 0.8);
    --radius-lg: var(--radius);
-   --radius-xl: calc(var(--radius) * 1.4);
-   --radius-2xl: calc(var(--radius) * 1.8);
-   --radius-3xl: calc(var(--radius) * 2.2);
-   --radius-4xl: calc(var(--radius) * 2.6);
-}
+   --radius-xl: calc(var(--radius) * 1.2);
+   --radius-2xl: calc(var(--radius) * 1.6);
 
-body {
-   background: var(--background);
-   color: var(--foreground);
+   /* Одна кривая на весь сайт */
+   --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @layer base {
@@ -92,29 +95,102 @@ body {
       @apply border-border outline-ring/50;
    }
 
-   body {
-      @apply bg-background text-foreground;
+   html {
+      scroll-padding-top: calc(var(--header-h) + 1.5rem);
+      -webkit-text-size-adjust: 100%;
    }
 
-   html {
-      @apply font-sans;
+   @media (prefers-reduced-motion: no-preference) {
+      html {
+         scroll-behavior: smooth;
+      }
+   }
+
+   body {
+      @apply bg-background font-sans text-foreground antialiased;
+      text-rendering: optimizeLegibility;
+   }
+
+   ::selection {
+      background: var(--brand);
+      color: var(--foreground);
+   }
+}
+
+/* Узкое начертание IBM Plex Sans — заголовки в духе дорожных указателей */
+@utility font-display {
+   font-weight: 600;
+   font-stretch: 82%;
+   font-variation-settings: "wdth" 82;
+   letter-spacing: -0.015em;
+}
+
+/* Фирменная деталь — пунктир дорожной разметки */
+@utility road-mark {
+   display: inline-block;
+   flex: none;
+   width: 2.25rem;
+   height: 0.25rem;
+   border-radius: 1px;
+   background: repeating-linear-gradient(90deg, var(--brand) 0 0.625rem, transparent 0.625rem 0.875rem);
+}
+
+@utility road-line-x {
+   background: repeating-linear-gradient(90deg, var(--brand) 0 0.75rem, transparent 0.75rem 1.25rem);
+}
+
+@utility road-line-y {
+   background: repeating-linear-gradient(180deg, var(--brand) 0 0.75rem, transparent 0.75rem 1.25rem);
+}
+
+/* Единственная анимация при загрузке — заголовок первого экрана */
+@keyframes rise-in {
+   from {
+      opacity: 0;
+      transform: translateY(12px);
+   }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+   .hero-rise {
+      animation: rise-in 600ms var(--ease-brand) both;
+      animation-delay: calc(var(--rise-index, 0) * 60ms + 80ms);
+   }
+}
+
+/* Текст юридических страниц */
+@layer components {
+   .legal-prose {
+      @apply max-w-[72ch] text-[16px] leading-7 text-subtle;
+   }
+
+   .legal-prose h2 {
+      @apply mt-12 mb-4 text-xl font-semibold leading-snug text-foreground first:mt-0;
+   }
+
+   .legal-prose p + p,
+   .legal-prose p + ul,
+   .legal-prose ul + p {
+      @apply mt-3;
+   }
+
+   .legal-prose ul {
+      @apply grid list-disc gap-1.5 pl-5 marker:text-faint;
+   }
+
+   .legal-prose a {
+      @apply text-brand-ink underline decoration-brand-ink/30 underline-offset-3 transition-colors hover:decoration-brand-ink;
+   }
+
+   .legal-prose strong {
+      @apply font-medium text-foreground;
    }
 }
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus {
-   -webkit-box-shadow: 0 0 0px 1000px #F9F9F9 inset !important;
-   box-shadow: 0 0 0px 1000px #F9F9F9 inset !important;
-   -webkit-text-fill-color: inherit !important;
-}
-
-.cn-toast {
-   border-radius: 0 !important;
-}
-
-[data-radix-popper-content-wrapper] {
-   transform-style: preserve-3d;
-   -webkit-font-smoothing: antialiased;
-   -moz-osx-font-smoothing: grayscale;
+   -webkit-box-shadow: 0 0 0 1000px var(--card) inset !important;
+   box-shadow: 0 0 0 1000px var(--card) inset !important;
+   -webkit-text-fill-color: var(--foreground) !important;
 }
